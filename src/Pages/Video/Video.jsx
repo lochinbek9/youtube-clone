@@ -1,8 +1,11 @@
 import "./Video.css"
+import PlayVideo from "../../Components/PlayVideo/PlayVideo"
 
 function Video() {
   return (
-    <div>Video</div>
+    <div className="play-container">
+        <PlayVideo/>
+    </div>
   )
 }
 
