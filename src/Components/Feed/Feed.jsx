@@ -10,108 +10,40 @@ import thumbnail6 from "../../assets/thumbnail6.png"
 import thumbnail7 from "../../assets/thumbnail7.png"
 import thumbnail8 from "../../assets/thumbnail8.png"
 import { Link } from "react-router-dom"
+import { API_KEY } from "../../data.js"
+import { useEffect, useState } from "react"
 
-function Feed() {
+function Feed({ category }) {
+    const [data, setData] = useState([]);
+
+    const fetchData = async () => {
+        try {
+            const videoList_url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&maxResults=50&regionCode=US&videoCategoryId=${category}&key=${API_KEY}`;
+            const res = await fetch(videoList_url);
+            const data = await res.json();
+            setData(data.items || []);
+        } catch (error) {
+            console.error("Fetch error:", error);
+            setData([]);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [category]);
+
     return (
         <div className="feed">
-            <Link to={`video/20/4521`} className="card">
-                <img src={thumbnail1} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </Link>
-            <div className="card">
-                <img src={thumbnail2} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail3} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail4} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail5} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail6} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail7} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail8 } alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail1} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail2} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail3} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail4} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail5} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail6} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail7} alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
-            <div className="card">
-                <img src={thumbnail8 } alt="" />
-                <h2>Best channel to learn coding that help you to be a web developer</h2>
-                <h3>Mentor Lochinbek</h3>
-                <p>15k views &bull; 2 days ago</p>
-            </div>
+            {data.map((item, index) => (
+                <Link key={index} to={`/video/${item.id}`} className="card">
+                    <img src={item.snippet?.thumbnails?.medium?.url} alt={item.snippet?.title} />
+                    <h2>{item.snippet?.title}</h2>
+                    <h3>{item.snippet?.channelTitle}</h3>
+                    <p>{item.statistics?.viewCount} views</p>
+                </Link>
+            ))}
         </div>
-    )
+    );
 }
 
 export default Feed

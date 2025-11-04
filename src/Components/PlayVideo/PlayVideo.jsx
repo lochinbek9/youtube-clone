@@ -31,7 +31,7 @@ function PlayVideo() {
         </div>
         <button>Subscribe</button>
       </div>
-      <div className="vid-descriptiobn">
+      <div className="vid-description">
         <p>Channel that makes learning Easy</p>
         <p>Subscribe Mentorlochinbek to Watch More Tutorials on web development</p>
         <hr />
