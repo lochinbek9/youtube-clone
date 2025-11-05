@@ -22,6 +22,14 @@ function Recommended({ categoryId }) {
     if (categoryId) fetchRecommended();
   }, [categoryId]);
 
+  const formatViews = (views) => {
+    if (!views) return "N/A";
+    const num = parseInt(views);
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + "M views";
+    if (num >= 1000) return (num / 1000).toFixed(1) + "K views";
+    return num + " views";
+  };
+
   return (
     <div className="recommended">
       <h3>Recommended Videos</h3>
@@ -35,8 +43,13 @@ function Recommended({ categoryId }) {
             <img
               src={video.snippet.thumbnails.medium.url}
               alt={video.snippet.title}
+              className="video-img"
             />
-            <p>{video.snippet.title}</p>
+            <div className="video-info">
+              <h4 className="video-title">{video.snippet.title}</h4>
+              <p className="video-channel">{video.snippet.channelTitle}</p>
+              <p className="video-stats">{formatViews(video.statistics?.viewCount)}</p>
+            </div>
           </Link>
         ))}
       </div>
