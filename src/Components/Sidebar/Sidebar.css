@@ -85,3 +85,47 @@
 .sidebar::-webkit-scrollbar-track {
   background: transparent;
 }
+
+@media screen and (max-width: 1024px) {
+  .sidebar {
+    width: 200px; 
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    position: absolute; 
+    height: 100%; 
+    width: 200px;
+    top: 0;
+    left: -220px; 
+    transition: left 0.3s ease;
+    z-index: 999;
+  }
+
+  .sidebar.active {
+    left: 0; 
+  }
+
+  .small-sidebar {
+    width: 80px; 
+  }
+
+  .subscribed-list {
+    display: none; 
+  }
+
+  .shortcut-links {
+    gap: 8px;
+    padding: 0 5px;
+  }
+
+  .side-link img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .side-link p {
+    font-size: 13px;
+  }
+}
