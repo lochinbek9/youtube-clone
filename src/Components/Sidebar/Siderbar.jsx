@@ -1,4 +1,6 @@
-import "./Sidebar.css";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_KEY } from "../../data";
 import home from "../../assets/home.png";
 import game_icon from "../../assets/game_icon.png";
 import automobiles from "../../assets/automobiles.png";
@@ -8,18 +10,12 @@ import tech from "../../assets/tech.png";
 import music from "../../assets/music.png";
 import blogs from "../../assets/blogs.png";
 import news from "../../assets/news.png";
-import jack from "../../assets/jack.png";
-import simon from "../../assets/simon.png";
-import tom from "../../assets/tom.png";
-import megan from "../../assets/megan.png";
-import cameron from "../../assets/cameron.png";
-import { useNavigate } from "react-router-dom";
+import "./Sidebar.css";
+
 function Sidebar({ sidebar, category, setCategory }) {
   const navigate = useNavigate();
-    const handleCategoryClick = (catId) => {
-    setCategory(catId);
-    navigate("/"); 
-  };
+  const [subscriptions, setSubscriptions] = useState([]);
+
   const categories = [
     { id: 0, name: "Home", icon: home },
     { id: 20, name: "Gaming", icon: game_icon },
@@ -32,13 +28,43 @@ function Sidebar({ sidebar, category, setCategory }) {
     { id: 25, name: "News", icon: news },
   ];
 
-  const subscriptions = [
-    { img: jack, name: "Jack" },
-    { img: simon, name: "MrBeast" },
-    { img: tom, name: "Justin Bieber" },
-    { img: megan, name: "5-minute Crafts" },
-    { img: cameron, name: "Nas Daily" },
-  ];
+  useEffect(() => {
+    const fetchChannels = async () => {
+      const channelIds = [
+        "UCneJYS2Xf_a2a1ealwZb7mQ", 
+        "UCQHlwA2RzpQIRNemZX04i_Q", 
+        "UCyStLLq1rA9Og2HOcXIbYtA", 
+        "UC3Ad7MMhJ1NHAkYbtgbVJ1Q", 
+      ];
+
+      try {
+        const res = await fetch(
+          `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds.join(
+            ","
+          )}&key=${API_KEY}`
+        );
+        const data = await res.json();
+        const channelList = data.items.map((ch) => ({
+          id: ch.id,
+          name: ch.snippet.title,
+          img: ch.snippet.thumbnails.default.url,
+        }));
+        setSubscriptions(channelList);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchChannels();
+  }, []);
+
+  const handleCategoryClick = (catId) => {
+    setCategory(catId);
+    navigate("/"); 
+  };
+
+  const handleChannelClick = (channelId) => {
+    navigate(`/channel/${channelId}`);
+  };
 
   return (
     <div className={`sidebar ${sidebar ? "" : "small-sidebar"}`}>
@@ -58,8 +84,12 @@ function Sidebar({ sidebar, category, setCategory }) {
 
       <div className="subscribed-list">
         <h3>Subscribed</h3>
-        {subscriptions.map((sub, idx) => (
-          <div key={idx} className="side-link">
+        {subscriptions.map((sub) => (
+          <div
+            key={sub.id}
+            className="side-link"
+            onClick={() => handleChannelClick(sub.id)}
+          >
             <img src={sub.img} alt={sub.name} />
             <p>{sub.name}</p>
           </div>

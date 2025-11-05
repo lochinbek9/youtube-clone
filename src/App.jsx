@@ -5,6 +5,7 @@ import Video from "./Pages/Video/Video";
 import Feed from "./Components/Feed/Feed";
 import Navbar from "./Components/Navbar/Navbar";
 import SearchFeed from "./Components/SearchFeed/SearchFeed";
+import ChannelPage from "./Pages/ChannelPage/ChannelPage";
 
 function App() {
   const [category, setCategory] = useState(0);
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<Feed category={category} />} />
             <Route path="/video/:id" element={<Video />} />
             <Route path="/search/:query" element={<SearchFeed />} />
+            <Route path="/channel/:channelId" element={<ChannelPage />} />
           </Routes>
         </div>
       </div>
