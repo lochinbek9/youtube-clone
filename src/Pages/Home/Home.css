@@ -1,11 +1,9 @@
-.container{
-    background-color: #f9f9f9;
-    padding-left: 17%;
-    padding-right: 2%;
-    padding-top: 20px;
-    padding-bottom: 20px;
+.container {
+  margin-left: 250px; 
+  padding: 20px;
+  transition: margin-left 0.3s ease;
 }
 
-.large-container{
-    padding-left: 7%;
+.large-container {
+  margin-left: 80px; 
 }

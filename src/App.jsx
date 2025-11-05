@@ -1,21 +1,32 @@
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "./Components/Sidebar/Siderbar";
+import Video from "./Pages/Video/Video";
+import Feed from "./Components/Feed/Feed";
+import Navbar from "./Components/Navbar/Navbar";
+import SearchFeed from "./Components/SearchFeed/SearchFeed";
 
-import { useState } from "react"
-import { Route, Routes } from "react-router-dom"
-import Navbar from "./Components/Navbar/Navbar"
-import Home from "./Pages/Home/Home"
-import PlayVideo from "./Components/PlayVideo/PlayVideo"
 function App() {
+  const [category, setCategory] = useState(0);
   const [sidebar, setSidebar] = useState(true);
+
   return (
-    <div>
-      <Navbar setSidebar={setSidebar}/>
-      <Routes>
-        <Route path="/" element={<Home sidebar={sidebar}/>} />
-        {/* <Route path="/video/:categoryId/:videoId" element={<Video/>} /> */}
-        <Route path="/video/:id" element={<PlayVideo/>} />
-      </Routes>
-    </div>
-  )
+      <div className="app-container">
+         <Navbar setSidebar={setSidebar} />
+        <Sidebar
+          sidebar={sidebar}
+          category={category}
+          setCategory={setCategory}
+        />
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={<Feed category={category} />} />
+            <Route path="/video/:id" element={<Video />} />
+            <Route path="/search/:query" element={<SearchFeed />} />
+          </Routes>
+        </div>
+      </div>
+  );
 }
 
-export default App
+export default App;

@@ -1,4 +1,4 @@
-.feed {
+.search-feed {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -8,7 +8,7 @@
   transition: margin-left 0.3s ease;
 }
 
-.large-container .feed {
+.large-container .search-feed {
   margin-left: 80px;
 }
 
@@ -41,13 +41,19 @@
   color: #111;
 }
 
+.card .channel {
+  font-size: 13px;
+  color: #777;
+  margin: 0 10px 10px;
+}
+
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 @media screen and (max-width: 1024px) {
-  .feed {
+  .search-feed {
     justify-content: center;
     margin-left: 0;
   }
